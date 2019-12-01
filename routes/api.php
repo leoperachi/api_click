@@ -26,7 +26,11 @@ Route::get('/oportunidades/listar',
     'OportunidadesController@listar')
         ->name('oportunidades.get');
 
-Route::get('/oportunidades/candidatarse', 
+Route::post('/oportunidades/candidatarse', 
     'OportunidadesController@candidatarse')
         ->name('oportunidades.candidatarse');
+
+Route::get('/oportunidades/medicoInteressado', 
+    'OportunidadesController@index')
+        ->name('oportunidades.medicoInteressado');
     
