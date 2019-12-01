@@ -11,12 +11,14 @@ class OportunidadesController extends Controller
     public function listar(Request $request)
     {
         $userId = $request->query->get('userId');
-        return \response()->json(Oportunidade::select('oportunidade.*', 
-                'oportunidade_cliente.nome as nomeCLiente', 'especialidade.nome as nomeEspecialidade')
-            ->join('oportunidade_cliente','oportunidade.idoportunidade_cliente','oportunidade_cliente.id')
-            ->join('especialidade','oportunidade.idespecialidade','especialidade.id')
-            ->join('medico_oportunidade_cliente', 'oportunidade.idoportunidade_cliente', 'medico_oportunidade_cliente.idoportunidade_cliente')
-            ->get());
+            return \response()->json(Oportunidade::select('oportunidade.*', 
+                    'oportunidade_cliente.nome as nomeCLiente', 'especialidade.nome as nomeEspecialidade')
+                ->join('oportunidade_cliente','oportunidade.idoportunidade_cliente','oportunidade_cliente.id')
+                ->join('especialidade','oportunidade.idespecialidade','especialidade.id')
+                ->join('medico_oportunidade_cliente', 'oportunidade.idoportunidade_cliente', 'medico_oportunidade_cliente.idoportunidade_cliente')
+                ->join('medico', 'medico_oportunidade_cliente.idmedico', 'medico.id')
+                ->where('medico.user_id', '=', $userId)
+                ->get());
     }
 
     public function candidatarse(Request $request)
