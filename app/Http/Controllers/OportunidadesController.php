@@ -16,7 +16,6 @@ class OportunidadesController extends Controller
             ->join('oportunidade_cliente','oportunidade.idoportunidade_cliente','oportunidade_cliente.id')
             ->join('especialidade','oportunidade.idespecialidade','especialidade.id')
             ->join('medico_oportunidade_cliente', 'oportunidade.idoportunidade_cliente', 'medico_oportunidade_cliente.idoportunidade_cliente')
-            ->join('medico', 'medico_oportunidade_cliente.idmedico', 'medico.id')
             ->get());
     }
 
