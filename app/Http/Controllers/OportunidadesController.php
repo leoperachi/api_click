@@ -54,8 +54,12 @@ class OportunidadesController extends Controller
     public function medicoInteressado(Request $request)
     {
         $userId = $request->query->get('userId');
+
+        $medico = Medico::where('user_id', '=', $userId)
+            ->firstOrFail();
+
         $opm = OportunidadeMedicosInteressados::select('oportunidade_medicos_interessados.idoportunidade as idoportunidade')
-            ->where('oportunidade_medicos_interessados.idmedico', '=', $userId)
+            ->where('oportunidade_medicos_interessados.idmedico', '=', $medico->id)
             ->get();
 
         return \response()->json($opm);
