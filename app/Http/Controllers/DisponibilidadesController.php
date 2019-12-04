@@ -18,11 +18,15 @@ class DisponibilidadesController extends Controller
     public function minhasDisponiblidades(Request $request)
     {
         $userId = $request->query->get('usr');
+
+        $medico = Medico::where('user_id', '=', $userId)
+            ->firstOrFail();
+
         $md = MedicoDisponibilidade::select('medico_disponibilidade.*', 'especialidade.nome')
             ->join('medico_especialidade', 'medico_disponibilidade.idmedico_especialidade', 'medico_especialidade.id')
             ->join('especialidade', 'medico_especialidade.idespecialidade', 'especialidade.id')
             ->join('medico', 'medico_especialidade.idmedico', 'medico.id')
-            ->where('medico.id', '=', $userId)
+            ->where('medico.id', '=', $medico->id)
             ->get();
 
         return \response()->json($md);
@@ -45,7 +49,6 @@ class DisponibilidadesController extends Controller
             $me = new MedicoEspecialidade();
             $me->idmedico = $m->id;
             $me->idespecialidade = $request['idmedico_especialidade'];
-            $me->idinstituicao = 1;
             $me->ativo = 1;
             $me->save();
             $md->idmedico_especialidade = $me->id;

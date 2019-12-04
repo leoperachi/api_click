@@ -51,6 +51,24 @@ class OportunidadesController extends Controller
         
     }
 
+    public function descandidatarse(Request $request)
+    {
+        try{
+            $idOportunidade = $request['idOportunidade'];
+            $userId = $request['userId'];
+            
+            $medico = Medico::where('user_id', '=', $userId)
+                ->firstOrFail();
+
+            OportunidadeMedicosInteressados::where('idmedico', '=', $medico->id)
+                ->where('idoportunidade', '=', $idOportunidade)->delete();
+            
+            return \response()->json(json_encode(true));
+        }catch(\Exception $ex){
+            throw $ex;
+        }
+    }
+
     public function medicoInteressado(Request $request)
     {
         $userId = $request->query->get('userId');

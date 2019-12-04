@@ -30,6 +30,10 @@ Route::post('/oportunidades/candidatarse',
     'OportunidadesController@candidatarse')
         ->name('oportunidades.candidatarse');
 
+Route::post('/oportunidades/descandidatarse', 
+    'OportunidadesController@descandidatarse')
+        ->name('oportunidades.descandidatarse');
+
 Route::get('/oportunidades/medicoInteressado', 
     'OportunidadesController@medicoInteressado')
         ->name('oportunidades.medicoInteressado');
