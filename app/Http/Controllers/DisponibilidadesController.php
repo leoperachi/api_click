@@ -19,17 +19,26 @@ class DisponibilidadesController extends Controller
     {
         $userId = $request->query->get('usr');
 
-        $medico = Medico::where('user_id', '=', $userId)
+        try{
+            $medico = Medico::where('user_id', '=', $userId)
             ->firstOrFail();
 
-        $md = MedicoDisponibilidade::select('medico_disponibilidade.*', 'especialidade.nome')
-            ->join('medico_especialidade', 'medico_disponibilidade.idmedico_especialidade', 'medico_especialidade.id')
-            ->join('especialidade', 'medico_especialidade.idespecialidade', 'especialidade.id')
-            ->join('medico', 'medico_especialidade.idmedico', 'medico.id')
-            ->where('medico.id', '=', $medico->id)
-            ->get();
+            $md = MedicoDisponibilidade::select('medico_disponibilidade.*', 'especialidade.nome')
+                ->join('medico_especialidade', 'medico_disponibilidade.idmedico_especialidade', 'medico_especialidade.id')
+                ->join('especialidade', 'medico_especialidade.idespecialidade', 'especialidade.id')
+                ->join('medico', 'medico_especialidade.idmedico', 'medico.id')
+                ->where('medico.id', '=', $medico->id)
+                ->get();
 
-        return \response()->json($md);
+            return \response()->json($md);
+        }catch(\Exception $ex){
+            $ret = [
+                'sucesso' => false,
+                'msg' => 'Usuário não é tem Medico Associado'
+            ];
+
+            return $ret;
+        }
     }
 
     public function salvar(Request $request)

@@ -22,8 +22,7 @@ class OportunidadesController extends Controller
                 ->join('medico_oportunidade_cliente', 'oportunidade.idoportunidade_cliente', 'medico_oportunidade_cliente.idoportunidade_cliente')
                 ->join('medico', 'medico_oportunidade_cliente.idmedico', 'medico.id')
                 ->where('medico.user_id', '=', $userId)
-                ->where('oportunidade.idoportunidade_status', '=', 2)
-                ->orWhere('oportunidade.idoportunidade_status', '=', 10)
+                ->whereIn('oportunidade.idoportunidade_status', [2, 10])
                 ->get());
 
         }catch(\Exception $ex){
